@@ -1,0 +1,14 @@
+{% extends 'products/base.html' %}
+{% block content %}
+<h2>{{ product.name }}</h2>
+<p>{{ product.description }}</p>
+<p><strong>Price:</strong> {{ product.price }}</p>
+<p><strong>Stock:</strong> {{ product.stock }}</p>
+<p><strong>Category:</strong> {{ product.category }}</p>
+
+<img src="{{ product.image_url }}" width="200">
+
+<br><br>
+<a href="{% url 'product_update' product.id %}">Edit</a>
+<a href="{% url 'product_list' %}">Back</a>
+{% endblock %}

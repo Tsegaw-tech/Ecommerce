@@ -4,6 +4,7 @@ from .serializers import ProductSerializer, CategorySerializer, UserSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 User = get_user_model()
@@ -18,8 +19,15 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.select_related('category').all()
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAdminOrReadCreate]
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'category__name', 'sku', 'description']
+
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ['name', 'description', 'sku']
+    filterset_fields = {
+        'category': ['exact'],
+        'price': ['gte', 'lte'],
+        'stock': ['gte'],
+        'is_active': ['exact']
+    }
 
     def perform_create(self, serializer):
         # set seller to current user if authenticated
@@ -47,13 +55,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAdminUser]
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAdminUser]

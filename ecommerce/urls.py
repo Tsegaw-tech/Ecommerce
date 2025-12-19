@@ -19,6 +19,23 @@ from django.urls import path, include
 from rest_framework import routers
 from products.views import ProductViewSet, CategoryViewSet, UserViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="E-Commerce API",
+        default_version='v1',
+        description="API documentation for Users, Categories, and Products",
+        contact=openapi.Contact(email="tsegaw.grace@gmail.com"),
+        license=openapi.License(name="TTC License"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
 
 router = routers.DefaultRouter()
 router.register('products', ProductViewSet, basename='product')
@@ -30,4 +47,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('api/auth/login/', TokenObtainPairView.as_view()),
+    path('', include('products.urls')),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc'),
 ]
