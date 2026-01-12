@@ -107,17 +107,33 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "ecommerce",       # your PostgreSQL database name
+#         "USER": "postgres",              # your PostgreSQL username
+#         "PASSWORD": "password",# your PostgreSQL password
+#         "HOST": "127.0.0.1",             # usually localhost
+#         "PORT": "5432",                  # default PostgreSQL port
+#     }
+# }
+
+
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "ecommerce",       # your PostgreSQL database name
-        "USER": "postgres",              # your PostgreSQL username
-        "PASSWORD": "password",# your PostgreSQL password
-        "HOST": "127.0.0.1",             # usually localhost
-        "PORT": "5432",                  # default PostgreSQL port
+        "NAME": "neondb",
+        "USER": "neondb_owner",
+        "PASSWORD": "npg_Q5kngEP6NydK",
+        "HOST": "ep-nameless-shape-ah30qq93-pooler.c-3.us-east-1.aws.neon.tech",
+        "PORT": "5432",
+        "OPTIONS": {
+            "sslmode": "require",
+            "channel_binding": "require",
+        },
     }
 }
-
 
 
 
