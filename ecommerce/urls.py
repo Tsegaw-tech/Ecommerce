@@ -22,6 +22,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.http import HttpResponse
+
 
 
 
@@ -42,8 +44,12 @@ router.register('products', ProductViewSet, basename='product')
 router.register('categories', CategoryViewSet)
 router.register('users', UserViewSet)
 
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", lambda request: HttpResponse("Welcome! Django app is live 🚀")),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('api/auth/login/', TokenObtainPairView.as_view()),
